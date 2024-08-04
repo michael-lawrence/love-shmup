@@ -1,0 +1,53 @@
+---@module 'shaders.blur'
+Blur = {}
+
+--- Creates a new blur shader instance.
+---@return Blur The new blur shader instance.
+function Blur.new()
+    local Offset = { 0, 0 }
+    local size = { love.graphics.getDimensions() }
+    local sensitivity = 0.05
+    local zeroRadius = 1000
+
+    local shader = love.graphics.newShader('assets/shaders/blur.frag')
+    shader:send("CanvasSize", size)
+
+    ---@class Blur
+    local blur = {}
+
+    --- Draws the blur shader.
+    --- This function sets the current shader to the blur shader, which can then be used for rendering.
+    function blur:draw()
+        love.graphics.setShader(shader)
+    end
+
+    --- Resets the current shader to the default shader.
+    function blur:reset()
+        love.graphics.setShader()
+    end
+
+    --- Updates the blur shader based on the given mouse position.
+    ---
+    --- If the target position is within the `zeroRadius` distance from the center of the canvas, the blur offset is set to 0.
+    --- Otherwise, the blur offset is calculated based on the target position and the `sensitivity` value.
+    ---
+    --- @param x number The x-coordinate of the target position.
+    --- @param y number The y-coordinate of the target position.
+    function blur:update(x, y)
+        local mx, my = x - size[1] / 2, y - size[2] / 2
+        local msq = mx * mx + my * my
+
+        if msq < zeroRadius * zeroRadius then
+            Offset = { 0, 0 }
+            shader:send("Blur", Offset)
+        else
+            local mult = sensitivity * (1 - zeroRadius / math.sqrt(msq))
+            Offset={ mult * mx, mult * my }
+            shader:send("Blur", Offset)
+        end
+    end
+
+    return blur
+end
+
+return Blur
