@@ -29,7 +29,7 @@ function love.update(dt)
         Player1:moveDown()
     end
 
-    Player1:update()
+    Player1:update(dt)
 end
 
 function love.draw()
