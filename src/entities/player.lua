@@ -1,5 +1,6 @@
 require('shaders.blur')
 require('drawing.point')
+require('particles.thruster')
 
 ---@module 'entities.player'
 Player = {}
@@ -8,6 +9,8 @@ Player = {}
 ---@param imagePath string The path to the image to use for the player.
 ---@return Player Player The player instance.
 function Player.new(imagePath)
+    local canvas = love.graphics.newCanvas()
+    local thruster = Thruster.new()
     local blur = Blur.new()
     local windowW, windowH = love.window.getMode()
     local image = love.graphics.newImage(imagePath)
@@ -22,6 +25,8 @@ function Player.new(imagePath)
 
     --- Draws the player on the screen at their current position, rotation, and scale.
     function player:draw()
+        thruster:draw()
+
         blur:draw()
         love.graphics.draw(image, self.position.x, self.position.y, self.rotation, self.scale.x, self.scale.y)
         blur:reset()
@@ -78,8 +83,14 @@ function Player.new(imagePath)
     --- Updates the player's position and applies a blur effect based on the player's distance from the center of the screen.
     --- This function calculates the distance between the player's position and the center of the screen. If the distance is less than the `zeroRadius` value, the blur effect is set to zero. Otherwise, the blur effect is calculated based on the player's distance from the center, using the `sensitivity` value to determine the strength of the effect.
     --- @param self Player The player instance.
-    function player:update()
+    --- @param dt number The time since the last update, in seconds.
+    function player:update(dt)
         blur:update(self.position.x, self.position.y)
+
+        local playerSize = self:getSize()
+
+        thruster:setPosition(self.position.x + (playerSize.x / 2), self.position.y + playerSize.y)
+        thruster:update(dt)
     end
 
     --- Moves the player left by the player's speed.
