@@ -8,10 +8,10 @@
             "type": "shell",
             "command": "love",
             "args": [
-                "${workspaceFolder}"
+                "${workspaceFolder}/src"
             ],
             "options": {
-                "cwd": "${workspaceFolder}"
+                "cwd": "${workspaceFolder}/src"
             },
             "problemMatcher": [],
             "group": {
