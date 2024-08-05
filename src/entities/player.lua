@@ -5,15 +5,17 @@ require('particles.thruster')
 ---@module 'entities.player'
 Player = {}
 
+local G, W = love.graphics, love.window
+
 --- Creates a new player instance.
 ---@param imagePath string The path to the image to use for the player.
 ---@return Player Player The player instance.
 function Player.new(imagePath)
-    local canvas = love.graphics.newCanvas()
+    local canvas = G.newCanvas()
     local thruster = Thruster.new()
     local blur = Blur.new()
-    local image = love.graphics.newImage(imagePath)
-    local windowSize = Point.new(love.window.getMode())
+    local image = G.newImage(imagePath)
+    local windowSize = Point.new(W.getMode())
     local imageSize = Point.new(image:getDimensions())
 
     ---@class Player
@@ -30,18 +32,18 @@ function Player.new(imagePath)
 
     --- Draws the player on the screen at their current position, rotation, and scale.
     function player:draw()
-        local oldCanvas = love.graphics.getCanvas()
-        love.graphics.setCanvas(canvas)
-        love.graphics.clear()
+        local oldCanvas = G.getCanvas()
+        G.setCanvas(canvas)
+        G.clear()
 
         thruster:draw()
 
         blur:draw()
-        love.graphics.draw(image, self.position.x, self.position.y, self.rotation, self.scale.x, self.scale.y)
+        G.draw(image, self.position.x, self.position.y, self.rotation, self.scale.x, self.scale.y)
         blur:reset()
 
-        love.graphics.setCanvas(oldCanvas)
-        love.graphics.draw(canvas)
+        G.setCanvas(oldCanvas)
+        G.draw(canvas)
     end
 
     --- Initializes the player's starting position on the screen.

@@ -3,8 +3,10 @@ require('entities.player')
 require('entities.music')
 require('shaders.crt')
 
+local G, K = love.graphics, love.keyboard
+
 function love.load()
-    Canvas = love.graphics.newCanvas()
+    Canvas = G.newCanvas()
     CRTShader = CRT.new()
     BGImage = BG.new()
     BGMusic = Music.new()
@@ -17,15 +19,15 @@ end
 function love.update(dt)
     BGImage:moveDown()
 
-    if love.keyboard.isDown('left') then
+    if K.isDown('left') then
         Player1:moveLeft()
-    elseif love.keyboard.isDown('right') then
+    elseif K.isDown('right') then
         Player1:moveRight()
     end
 
-    if love.keyboard.isDown('up') then
+    if K.isDown('up') then
         Player1:moveUp()
-    elseif love.keyboard.isDown('down') then
+    elseif K.isDown('down') then
         Player1:moveDown()
     end
 
@@ -34,13 +36,13 @@ end
 
 function love.draw()
     -- Render the game to the main canvas
-    love.graphics.setCanvas(Canvas)
+    G.setCanvas(Canvas)
     BGImage:draw()
     Player1:draw()
-    love.graphics.setCanvas()
+    G.setCanvas()
 
     -- Apply the CRT shader to the entire canvas
     CRTShader:draw()
-    love.graphics.draw(Canvas)
+    G.draw(Canvas)
     CRTShader:reset()
 end

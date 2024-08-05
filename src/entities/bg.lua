@@ -3,14 +3,16 @@ require('drawing.point')
 ---@module 'entities.bg'
 BG = {}
 
+local G, W = love.graphics, love.window
+
 local numScreens = 100
-local image = love.graphics.newImage('assets/bg.png')
+local image = G.newImage('assets/bg.png')
 image:setWrap('repeat', 'repeat')
 
 --- Creates a new background instance.
 --- @return BG BG The new background instance.
 function BG.new()
-    local windowSize = Point.new(love.window.getMode())
+    local windowSize = Point.new(W.getMode())
 
     ---@class BG
     ---@field position Point The current position of where the background is being rendered.
@@ -20,11 +22,11 @@ function BG.new()
         speed = 1,
     }
 
-    local quad = love.graphics.newQuad(0, 0, windowSize.x, windowSize.y * numScreens, image:getDimensions())
+    local quad = G.newQuad(0, 0, windowSize.x, windowSize.y * numScreens, image:getDimensions())
 
     --- Draws the background image on the screen at the current position.
     function bg:draw()
-        love.graphics.draw(image, quad, self.position:get())
+        G.draw(image, quad, self.position:get())
     end
 
     --- Moves the background up by the background's speed.

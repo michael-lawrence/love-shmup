@@ -3,15 +3,17 @@ require('drawing.point')
 ---@module 'shaders.blur'
 Blur = {}
 
+local G = love.graphics
+
 --- Creates a new blur shader instance.
 ---@return Blur The new blur shader instance.
 function Blur.new()
     local Offset = { 0, 0 }
-    local size = Point.new(love.graphics.getDimensions())
+    local size = Point.new(G.getDimensions())
     local sensitivity = 0.05
     local zeroRadius = 1000
 
-    local shader = love.graphics.newShader('assets/shaders/blur.frag')
+    local shader = G.newShader('assets/shaders/blur.frag')
     shader:send("CanvasSize", { size:get() })
 
     ---@class Blur
@@ -20,12 +22,12 @@ function Blur.new()
     --- Draws the blur shader.
     --- This function sets the current shader to the blur shader, which can then be used for rendering.
     function blur:draw()
-        love.graphics.setShader(shader)
+        G.setShader(shader)
     end
 
     --- Resets the current shader to the default shader.
     function blur:reset()
-        love.graphics.setShader()
+        G.setShader()
     end
 
     --- Updates the blur shader based on the given mouse position.

@@ -1,6 +1,8 @@
 ---@module 'entities.music'
 Music = {}
 
+local A = love.audio
+
 --- Creates a new Music instance.
 ---@return Music The music instance.
 function Music.new()
@@ -18,10 +20,10 @@ function Music.new()
     ---Plays the specified song.
     ---@param song string The song to play.
     function music:play(song)
-        songSource = love.audio.newSource(song, 'stream')
+        songSource = A.newSource(song, 'stream')
 
-        love.audio.setVolume(0.35)
-        love.audio.play(songSource)
+        A.setVolume(0.35)
+        A.play(songSource)
     end
 
     ---Stops the currently playing song.
