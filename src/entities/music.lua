@@ -5,6 +5,7 @@ Music = {}
 ---@return Music The music instance.
 function Music.new()
     ---@class Music
+    ---@field songs table
     local music = {
         songs = {
             stage1 = 'assets/music/stage1.ogg'

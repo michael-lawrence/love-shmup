@@ -12,10 +12,15 @@ function Player.new(imagePath)
     local canvas = love.graphics.newCanvas()
     local thruster = Thruster.new()
     local blur = Blur.new()
-    local windowW, windowH = love.window.getMode()
     local image = love.graphics.newImage(imagePath)
+    local windowSize = Point.new(love.window.getMode())
+    local imageSize = Point.new(image:getDimensions())
 
     ---@class Player
+    ---@field position Point The coordinates where the player currently is.
+    ---@field scale Point The scale of the image being rendered.
+    ---@field rotation number The rotation to render the image.
+    ---@field speed number The speed in pixels that the player will move each frame.
     local player = {
         position = Point.new(0, 0),
         scale = Point.new(0.35, 0.35),
@@ -25,38 +30,42 @@ function Player.new(imagePath)
 
     --- Draws the player on the screen at their current position, rotation, and scale.
     function player:draw()
+        local oldCanvas = love.graphics.getCanvas()
+        love.graphics.setCanvas(canvas)
+        love.graphics.clear()
+
         thruster:draw()
 
         blur:draw()
         love.graphics.draw(image, self.position.x, self.position.y, self.rotation, self.scale.x, self.scale.y)
         blur:reset()
+
+        love.graphics.setCanvas(oldCanvas)
+        love.graphics.draw(canvas)
     end
 
     --- Initializes the player's starting position on the screen.
     --- This function sets the player's position to be centered horizontally and at the bottom of the screen.
     function player:init()
         local playerSize = self:getSize()
+        local halfWidth = Point.new(2, 1)
+        local windowLocation = windowSize / halfWidth
+        local playerLocation = playerSize / halfWidth
+        local position = windowLocation - playerLocation
 
-        local point = Point.new(
-            (windowW / 2) - (playerSize.x / 2),
-            windowH - playerSize.y
-        )
-
-        self:setPosition(point)
+        self:setPosition(position)
     end
 
     --- Sets the position of the player.
-    ---@param point Point The new position of the player.
-    function player:setPosition(point)
-        self.position.x = point.x
-        self.position.y = point.y
+    ---@param position Point The new position of the player.
+    function player:setPosition(position)
+        self.position:setPoint(position)
     end
 
     ---Sets the scale of the player.
-    ---@param point Point The new scale of the player.
-    function player:setScale(point)
-        self.scale.x = point.x
-        self.scale.y = point.y
+    ---@param scale Point The new scale of the player.
+    function player:setScale(scale)
+        self.scale:setPoint(scale)
     end
 
     --- Sets the rotation of the player.
@@ -74,10 +83,7 @@ function Player.new(imagePath)
     --- Returns the width and height of the player's image, scaled by the player's scale.
     ---@return Point point The size of the player's image, scaled.
     function player:getSize()
-        return Point.new(
-            image:getWidth() * self.scale.x,
-            image:getHeight() * self.scale.y
-        )
+        return imageSize * self.scale
     end
 
     --- Updates the player's position and applies a blur effect based on the player's distance from the center of the screen.
@@ -85,11 +91,12 @@ function Player.new(imagePath)
     --- @param self Player The player instance.
     --- @param dt number The time since the last update, in seconds.
     function player:update(dt)
-        blur:update(self.position.x, self.position.y)
+        blur:update(self.position)
 
         local playerSize = self:getSize()
+        local newPosition = self.position + Point.new(playerSize.x / 2, playerSize.y)
 
-        thruster:setPosition(self.position.x + (playerSize.x / 2), self.position.y + playerSize.y)
+        thruster:setPosition(newPosition)
         thruster:update(dt)
     end
 
@@ -101,7 +108,7 @@ function Player.new(imagePath)
     --- Moves the player right by the player's speed.
     function player:moveRight()
         local playerSize = player:getSize()
-        self.position.x = math.min(windowW - playerSize.x, self.position.x + self.speed)
+        self.position.x = math.min(windowSize.x - playerSize.x, self.position.x + self.speed)
     end
 
     --- Moves the player up by the player's speed.
@@ -112,7 +119,7 @@ function Player.new(imagePath)
     --- Moves the player down by the player's speed.
     function player:moveDown()
         local playerSize = player:getSize()
-        self.position.y = math.min(windowH - playerSize.y, self.position.y + self.speed)
+        self.position.y = math.min(windowSize.y - playerSize.y, self.position.y + self.speed)
     end
 
     return player
