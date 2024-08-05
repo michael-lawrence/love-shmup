@@ -51,8 +51,9 @@ function Player.new(imagePath)
     function player:init()
         local playerSize = self:getSize()
         local halfWidth = Point.new(2, 1)
+        local offset = Point.new(0, 1)
         local windowLocation = windowSize / halfWidth
-        local playerLocation = playerSize / halfWidth
+        local playerLocation = (playerSize / halfWidth) + (offset * playerSize)
         local position = windowLocation - playerLocation
 
         self:setPosition(position)
