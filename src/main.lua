@@ -1,5 +1,6 @@
 require('entities.bg')
 require('entities.player')
+require('entities.enemy')
 require('entities.music')
 require('shaders.crt')
 
@@ -14,6 +15,9 @@ function love.load()
 
     Player1 = Player.new('assets/spaceship.png');
     Player1:init()
+
+    Enemy1 = Enemy.new('assets/boss-stage1.png')
+    Enemy1:init()
 
     Keys = {
         left = Player1.moveLeft,
@@ -36,6 +40,12 @@ function love.update(dt)
     end
 
     Player1:update(dt)
+
+    if Enemy1.position.y < 100 then
+        Enemy1:moveDown()
+    end
+
+    Enemy1:update(dt)
 end
 
 function love.draw()
@@ -43,6 +53,7 @@ function love.draw()
     G.setCanvas(Canvas)
     BGImage:draw()
     Player1:draw()
+    Enemy1:draw()
     G.setCanvas()
 
     -- Apply the CRT shader to the entire canvas
