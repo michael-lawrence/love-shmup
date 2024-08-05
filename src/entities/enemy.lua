@@ -1,6 +1,6 @@
 require('shaders.blur')
 require('drawing.point')
-require('entities.bullet')
+require('entities.gun')
 
 ---@module 'entities.enemy'
 Enemy = {}
@@ -13,14 +13,13 @@ local G, W = love.graphics, love.window
 function Enemy.new(imagePath)
     local canvas = G.newCanvas()
     local blur = Blur.new()
-    local lastBulletFired = os.clock()
+    local gun = Gun.new('assets/beam.png')
 
     local image = G.newImage(imagePath)
     image:setFilter('nearest', 'linear')
 
     local windowSize = Point.new(W.getMode())
     local imageSize = Point.new(image:getDimensions())
-    local bullets = {}
 
     ---@class Enemy
     ---@field position Point The coordinates where the enemy currently is.
@@ -44,9 +43,7 @@ function Enemy.new(imagePath)
         G.draw(image, self.position.x, self.position.y, self.rotation, self.scale.x, self.scale.y)
         blur:reset()
 
-        for _, bullet in ipairs(bullets) do
-            bullet:draw()
-        end
+        gun:draw()
 
         G.setCanvas(oldCanvas)
         G.draw(canvas)
@@ -98,13 +95,10 @@ function Enemy.new(imagePath)
     function enemy:update(dt)
         blur:update(self.position)
 
-        for i, bullet in ipairs(bullets) do
-            bullet:update()
-
-            if bullet.isDestroyed then
-                bullets[i] = nil
-            end
-        end
+        local enemySize = self:getSize()
+        local gunOffset = Point.new(enemySize.x * 0.27, 0)
+        gun:setPosition(self.position + gunOffset)
+        gun:update(dt)
     end
 
     --- Moves the enemy left by the enemy's speed.
@@ -131,19 +125,7 @@ function Enemy.new(imagePath)
 
     --- Shoots a projectile
     function enemy:shoot()
-        local now = os.clock()
-
-        if now - lastBulletFired < 0.01 then return end
-
-        lastBulletFired = now
-
-        local bullet = Bullet.new()
-        local enemySize = enemy:getSize()
-        local offset = Point.new(enemySize.x * 0.4, -10)
-        local position = self.position + offset
-
-        bullet.position:setPoint(position)
-        table.insert(bullets, 1, bullet)
+        gun:shoot();
     end
 
     return enemy

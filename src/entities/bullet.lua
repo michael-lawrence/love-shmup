@@ -7,10 +7,9 @@ local G = love.graphics
 
 --- Creates a new bullet instance.
 ---@return Bullet Bullet The bullet instance.
-function Bullet.new()
+---@param image love.Image The image to use for the bullet
+function Bullet.new(image)
     local canvas = G.newCanvas()
-    local image = G.newImage('assets/beam.png')
-    image:setFilter('nearest', 'linear')
 
     ---@class Bullet
     ---@field position Point The coordinates where the bullet currently is.
