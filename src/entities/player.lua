@@ -1,6 +1,7 @@
 require('shaders.blur')
 require('drawing.point')
 require('particles.thruster')
+require('entities.bullet')
 
 ---@module 'entities.player'
 Player = {}
@@ -14,9 +15,14 @@ function Player.new(imagePath)
     local canvas = G.newCanvas()
     local thruster = Thruster.new()
     local blur = Blur.new()
+    local lastBulletFired = os.clock()
+
     local image = G.newImage(imagePath)
+    image:setFilter('nearest', 'linear')
+
     local windowSize = Point.new(W.getMode())
     local imageSize = Point.new(image:getDimensions())
+    local bullets = {}
 
     ---@class Player
     ---@field position Point The coordinates where the player currently is.
@@ -41,6 +47,10 @@ function Player.new(imagePath)
         blur:draw()
         G.draw(image, self.position.x, self.position.y, self.rotation, self.scale.x, self.scale.y)
         blur:reset()
+
+        for _, bullet in ipairs(bullets) do
+            bullet:draw()
+        end
 
         G.setCanvas(oldCanvas)
         G.draw(canvas)
@@ -101,6 +111,14 @@ function Player.new(imagePath)
 
         thruster:setPosition(newPosition)
         thruster:update(dt)
+
+        for i, bullet in ipairs(bullets) do
+            bullet:update()
+
+            if bullet.isDestroyed then
+                bullets[i] = nil
+            end
+        end
     end
 
     --- Moves the player left by the player's speed.
@@ -123,6 +141,23 @@ function Player.new(imagePath)
     function player:moveDown()
         local playerSize = player:getSize()
         self.position.y = math.min(windowSize.y - playerSize.y, self.position.y + self.speed)
+    end
+
+    --- Shoots a projectile
+    function player:shoot()
+        local now = os.clock()
+
+        if now - lastBulletFired < 0.01 then return end
+
+        lastBulletFired = now
+
+        local bullet = Bullet.new()
+        local playerSize = player:getSize()
+        local offset = Point.new(playerSize.x * 0.4, -10)
+        local position = self.position + offset
+
+        bullet.position:setPoint(position)
+        table.insert(bullets, 1, bullet)
     end
 
     return player

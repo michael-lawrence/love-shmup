@@ -8,6 +8,7 @@ local G, W = love.graphics, love.window
 local numScreens = 100
 local image = G.newImage('assets/bg.png')
 image:setWrap('repeat', 'repeat')
+image:setFilter('nearest', 'linear')
 
 --- Creates a new background instance.
 --- @return BG BG The new background instance.

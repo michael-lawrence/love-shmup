@@ -14,21 +14,25 @@ function love.load()
 
     Player1 = Player.new('assets/spaceship.png');
     Player1:init()
+
+    Keys = {
+        left = Player1.moveLeft,
+        a = Player1.moveLeft,
+        right = Player1.moveRight,
+        d = Player1.moveRight,
+        up = Player1.moveUp,
+        w = Player1.moveUp,
+        down = Player1.moveDown,
+        s = Player1.moveDown,
+        space = Player1.shoot,
+    }
 end
 
 function love.update(dt)
     BGImage:moveDown()
 
-    if K.isDown('left') then
-        Player1:moveLeft()
-    elseif K.isDown('right') then
-        Player1:moveRight()
-    end
-
-    if K.isDown('up') then
-        Player1:moveUp()
-    elseif K.isDown('down') then
-        Player1:moveDown()
+    for k, v in pairs(Keys) do
+        if K.isDown(k) then v(Player1) end
     end
 
     Player1:update(dt)
