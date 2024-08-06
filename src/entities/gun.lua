@@ -3,14 +3,14 @@ require('drawing.rect')
 require('entities.bullet')
 require('shaders.blur')
 
----@module 'entities.gun'
+--- @module 'entities.gun'
 Gun = {}
 
 local G = love.graphics
 
 --- Creates a new gun instance.
----@param imagePath string The path to the image to use for the gun.
----@return Gun Gun The gun instance.
+--- @param imagePath string The path to the image to use for the gun.
+--- @return Gun Gun The gun instance.
 function Gun.new(imagePath)
     local canvas = G.newCanvas()
     local blur = Blur.new()
@@ -22,11 +22,11 @@ function Gun.new(imagePath)
     local imageSize = Point.new(image:getDimensions())
     local bullets = {}
 
-    ---@class Gun
-    ---@field position Point The coordinates where the gun currently is.
-    ---@field scale Point The scale of the image being rendered.
-    ---@field rotation number The rotation to render the image.
-    ---@field speed number The speed in pixels that the gun will move each frame.
+    --- @class Gun
+    --- @field position Point The coordinates where the gun currently is.
+    --- @field scale Point The scale of the image being rendered.
+    --- @field rotation number The rotation to render the image.
+    --- @field speed number The speed in pixels that the gun will move each frame.
     local gun = {
         position = Point.new(0, 0),
         scale = Point.new(0.35, 0.35),
@@ -53,31 +53,31 @@ function Gun.new(imagePath)
     end
 
     --- Sets the position of the gun.
-    ---@param position Point The new position of the gun.
+    --- @param position Point The new position of the gun.
     function gun:setPosition(position)
         self.position:setPoint(position)
     end
 
     ---Sets the scale of the gun.
-    ---@param scale Point The new scale of the gun.
+    --- @param scale Point The new scale of the gun.
     function gun:setScale(scale)
         self.scale:setPoint(scale)
     end
 
     --- Sets the rotation of the gun.
-    ---@param rotation number The new rotation of the gun, in radians.
+    --- @param rotation number The new rotation of the gun, in radians.
     function gun:setRotation(rotation)
         self.rotation = rotation
     end
 
     ---Sets the speed of the gun.
-    ---@param speed number The new speed of the gun.
+    --- @param speed number The new speed of the gun.
     function gun:setSpeed(speed)
         self.speed = speed
     end
 
     --- Returns the width and height of the gun's image, scaled by the gun's scale.
-    ---@return Point point The size of the gun's image, scaled.
+    --- @return Point point The size of the gun's image, scaled.
     function gun:getSize()
         return imageSize * self.scale
     end
@@ -118,13 +118,19 @@ function Gun.new(imagePath)
     --- Checks if the gun's bullets intersect with the given rectangle.
     --- For each bullet in the `bullets` table, this function checks if the bullet intersects with the given rectangle.
     --- If an intersection is detected, the bullet is destroyed.
-    ---@param rect Rect The rectangle to check for intersections with the gun's bullets.
+    --- @param rect Rect The rectangle to check for intersections with the gun's bullets.
+    --- @return boolean true if an intersection is detected, false otherwise.
     function gun:destroyCollidingBullets(rect)
+        local collisionDetected = false
+
         for _, bullet in ipairs(bullets) do
             if bullet:intersects(rect) then
                 bullet:destroy()
+                collisionDetected = true
             end
         end
+
+        return collisionDetected
     end
 
     return gun

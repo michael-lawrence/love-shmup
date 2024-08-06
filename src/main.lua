@@ -3,12 +3,15 @@ require('entities.enemy')
 require('entities.music')
 require('entities.player')
 require('shaders.crt')
+require('shaders.shake')
 
 local G, K = love.graphics, love.keyboard
 
 function love.load()
     Canvas = G.newCanvas()
+    ShakeCanvas = G.newCanvas()
     CRTShader = CRT.new()
+    ShakeShader = Shake.new()
     BGImage = BG.new()
     BGMusic = Music.new()
     BGMusic:play(BGMusic.songs.stage1)
@@ -45,9 +48,14 @@ function love.update(dt)
         Enemy1:moveDown()
     end
 
-    Player1:destroyCollidingBullets(Enemy1:getRect())
+    local collision = Player1:destroyCollidingBullets(Enemy1:getRect())
+
+    if collision then
+        ShakeShader:trigger(10, 0.15)
+    end
 
     Enemy1:update(dt)
+    ShakeShader:update(dt)
 end
 
 function love.draw()
@@ -56,10 +64,16 @@ function love.draw()
     BGImage:draw()
     Player1:draw()
     Enemy1:draw()
-    G.setCanvas()
+
+    -- Apply the Shake shader to the main canvas
+    G.setCanvas(ShakeCanvas)
+    ShakeShader:draw()
+    G.draw(Canvas)
+    ShakeShader:reset()
 
     -- Apply the CRT shader to the entire canvas
+    G.setCanvas()
     CRTShader:draw()
-    G.draw(Canvas)
+    G.draw(ShakeCanvas)
     CRTShader:reset()
 end

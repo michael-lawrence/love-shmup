@@ -3,14 +3,14 @@ require('drawing.rect')
 require('entities.gun')
 require('shaders.blur')
 
----@module 'entities.enemy'
+--- @module 'entities.enemy'
 Enemy = {}
 
 local G, W = love.graphics, love.window
 
 --- Creates a new enemy instance.
----@param imagePath string The path to the image to use for the enemy.
----@return Enemy Enemy The enemy instance.
+--- @param imagePath string The path to the image to use for the enemy.
+--- @return Enemy Enemy The enemy instance.
 function Enemy.new(imagePath)
     local canvas = G.newCanvas()
     local blur = Blur.new()
@@ -22,11 +22,11 @@ function Enemy.new(imagePath)
     local windowSize = Point.new(W.getMode())
     local imageSize = Point.new(image:getDimensions())
 
-    ---@class Enemy
-    ---@field position Point The coordinates where the enemy currently is.
-    ---@field scale Point The scale of the image being rendered.
-    ---@field rotation number The rotation to render the image.
-    ---@field speed number The speed in pixels that the enemy will move each frame.
+    --- @class Enemy
+    --- @field position Point The coordinates where the enemy currently is.
+    --- @field scale Point The scale of the image being rendered.
+    --- @field rotation number The rotation to render the image.
+    --- @field speed number The speed in pixels that the enemy will move each frame.
     local enemy = {
         position = Point.new(0, 0),
         scale = Point.new(1, 1),
@@ -60,37 +60,37 @@ function Enemy.new(imagePath)
     end
 
     --- Sets the position of the enemy.
-    ---@param position Point The new position of the enemy.
+    --- @param position Point The new position of the enemy.
     function enemy:setPosition(position)
         self.position:setPoint(position)
     end
 
     ---Sets the scale of the enemy.
-    ---@param scale Point The new scale of the enemy.
+    --- @param scale Point The new scale of the enemy.
     function enemy:setScale(scale)
         self.scale:setPoint(scale)
     end
 
     --- Sets the rotation of the enemy.
-    ---@param rotation number The new rotation of the enemy, in radians.
+    --- @param rotation number The new rotation of the enemy, in radians.
     function enemy:setRotation(rotation)
         self.rotation = rotation
     end
 
     ---Sets the speed of the enemy.
-    ---@param speed number The new speed of the enemy.
+    --- @param speed number The new speed of the enemy.
     function enemy:setSpeed(speed)
         self.speed = speed
     end
 
     --- Returns the width and height of the enemy's image, scaled by the enemy's scale.
-    ---@return Point point The size of the enemy's image, scaled.
+    --- @return Point point The size of the enemy's image, scaled.
     function enemy:getSize()
         return imageSize * self.scale
     end
 
     --- Returns a rectangle representing the enemy's position and size.
-    ---@return Rect The rectangle representing the enemy's position and size.
+    --- @return Rect The rectangle representing the enemy's position and size.
     function enemy:getRect()
         return Rect.new(self.position.x, self.position.y, imageSize.x, imageSize.y)
     end

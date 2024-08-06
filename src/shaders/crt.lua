@@ -1,10 +1,10 @@
----@module 'shaders.crt'
+--- @module 'shaders.crt'
 CRT = {}
 
 local G = love.graphics
 
 --- Creates a new crt shader instance.
----@return crt The new crt shader instance.
+--- @return crt The new crt shader instance.
 function CRT.new()
     local width, height = G.getDimensions()
     local shader = G.newShader('assets/shaders/crt.frag')
@@ -12,7 +12,7 @@ function CRT.new()
     shader:send('inputSize', { width, height })
     shader:send('textureSize', { width, height })
 
-    ---@class crt
+    --- @class crt
     local crt = {}
 
     --- Draws the crt shader.

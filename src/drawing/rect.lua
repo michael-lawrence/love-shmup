@@ -1,4 +1,4 @@
----@module 'drawing.rect'
+--- @module 'drawing.rect'
 Rect = {}
 
 --- Adds two rects together and returns a new rect with the sum of their coordinates.
@@ -49,11 +49,11 @@ function Rect.new(x, y, w, h)
         __div = Rect.div,
     }
 
-    ---@class Rect
-    ---@field x number The x coordinate of the new rect. If not provided, defaults to 0.
-    ---@field y number The y coordinate of the new rect. If not provided, defaults to 0.
-    ---@field w number The width of the new rect. If not provided, defaults to 0.
-    ---@field h number The height of the new rect. If not provided, defaults to 0.
+    --- @class Rect
+    --- @field x number The x coordinate of the new rect. If not provided, defaults to 0.
+    --- @field y number The y coordinate of the new rect. If not provided, defaults to 0.
+    --- @field w number The width of the new rect. If not provided, defaults to 0.
+    --- @field h number The height of the new rect. If not provided, defaults to 0.
     local rect = { x = x, y = y, w = w, h = h }
 
     setmetatable(rect, mt);

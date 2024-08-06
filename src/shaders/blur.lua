@@ -1,12 +1,12 @@
 require('drawing.point')
 
----@module 'shaders.blur'
+--- @module 'shaders.blur'
 Blur = {}
 
 local G = love.graphics
 
 --- Creates a new blur shader instance.
----@return Blur The new blur shader instance.
+--- @return Blur The new blur shader instance.
 function Blur.new()
     local Offset = { 0, 0 }
     local size = Point.new(G.getDimensions())
@@ -16,7 +16,7 @@ function Blur.new()
     local shader = G.newShader('assets/shaders/blur.frag')
     shader:send("CanvasSize", { size:get() })
 
-    ---@class Blur
+    --- @class Blur
     local blur = {}
 
     --- Draws the blur shader.

@@ -1,4 +1,4 @@
----@module 'drawing.point'
+--- @module 'drawing.point'
 Point = {}
 
 --- Adds two points together and returns a new point with the sum of their coordinates.
@@ -47,9 +47,9 @@ function Point.new(x, y)
         __div = Point.div,
     }
 
-    ---@class Point
-    ---@field x number The x coordinate of the new point. If not provided, defaults to 0.
-    ---@field y number The y coordinate of the new point. If not provided, defaults to 0.
+    --- @class Point
+    --- @field x number The x coordinate of the new point. If not provided, defaults to 0.
+    --- @field y number The y coordinate of the new point. If not provided, defaults to 0.
     local point = { x = x, y = y, }
 
     setmetatable(point, mt);
@@ -81,8 +81,8 @@ function Point.new(x, y)
     end
 
     --- Checks if the point is inside the given rect.
-    ---@param rect Rect The rect to check if the point is inside.
-    ---@return boolean
+    --- @param rect Rect The rect to check if the point is inside.
+    --- @return boolean
     function point:inside(rect)
         if self.x < rect.x
             or self.y < rect.y
@@ -96,8 +96,8 @@ function Point.new(x, y)
     end
 
     --- Gets the distance between two points.
-    ---@param point2 Point The second point to get the distance to.
-    ---@return number
+    --- @param point2 Point The second point to get the distance to.
+    --- @return number
     function point:distance(point2)
         return math.sqrt((self.x - point2.x) ^ 2 + (self.y - point2.y) ^ 2)
     end

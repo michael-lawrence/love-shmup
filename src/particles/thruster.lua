@@ -1,6 +1,6 @@
 require('drawing.point')
 
----@module 'particles.thruster'
+--- @module 'particles.thruster'
 Thruster = {}
 
 local G = love.graphics
@@ -40,8 +40,8 @@ function Thruster.new()
     particles:emit(0)
     particles:update(0)
 
-    ---@class Thruster
-    ---@field position Point The coordinates the thruster will be rendered at.
+    --- @class Thruster
+    --- @field position Point The coordinates the thruster will be rendered at.
     local thruster = {
         position = Point.new(0, 0),
     }
@@ -67,7 +67,7 @@ function Thruster.new()
     end
 
     --- Sets the position of the thruster particle system.
-    ---@param position Point The new coordinates of the thruster particle system.
+    --- @param position Point The new coordinates of the thruster particle system.
     function thruster:setPosition(position)
         self.position:setPoint(position)
     end

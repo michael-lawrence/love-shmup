@@ -1,23 +1,23 @@
 require('drawing.point')
 require('drawing.rect')
 
----@module 'entities.bullet'
+--- @module 'entities.bullet'
 Bullet = {}
 
 local G = love.graphics
 
 --- Creates a new bullet instance.
----@return Bullet Bullet The bullet instance.
----@param image love.Image The image to use for the bullet
+--- @return Bullet Bullet The bullet instance.
+--- @param image love.Image The image to use for the bullet
 function Bullet.new(image)
     local canvas = G.newCanvas()
     local imageSize = Point.new(image:getDimensions())
 
-    ---@class Bullet
-    ---@field position Point The coordinates where the bullet currently is.
-    ---@field scale Point The scale of the image being rendered.
-    ---@field rotation number The rotation to render the image.
-    ---@field speed number The speed in pixels that the bullet will move each frame.
+    --- @class Bullet
+    --- @field position Point The coordinates where the bullet currently is.
+    --- @field scale Point The scale of the image being rendered.
+    --- @field rotation number The rotation to render the image.
+    --- @field speed number The speed in pixels that the bullet will move each frame.
     local bullet = {
         position = Point.new(0, 0),
         scale = Point.new(0.25, 0.25),
@@ -39,13 +39,13 @@ function Bullet.new(image)
     end
 
     --- Returns the width and height of the player's image, scaled by the player's scale.
-    ---@return Point point The size of the player's image, scaled.
+    --- @return Point point The size of the player's image, scaled.
     function bullet:getSize()
         return imageSize * self.scale
     end
 
     --- Returns a rectangle representing the bullet's position and size.
-    ---@return Rect The rectangle representing the bullet's position and size.
+    --- @return Rect The rectangle representing the bullet's position and size.
     function bullet:getRect()
         return Rect.new(self.position.x, self.position.y, imageSize.x, imageSize.y)
     end
@@ -73,8 +73,8 @@ function Bullet.new(image)
     end
 
     --- Checks if the bullet's rectangular area intersects with the given rectangle.
-    ---@param rect Rect The rectangle to check for intersection.
-    ---@return boolean true if the bullet's area intersects with the given rectangle, false otherwise.
+    --- @param rect Rect The rectangle to check for intersection.
+    --- @return boolean true if the bullet's area intersects with the given rectangle, false otherwise.
     function bullet:intersects(rect)
         local bulletRect = self:getRect()
         return bulletRect:intersects(rect)

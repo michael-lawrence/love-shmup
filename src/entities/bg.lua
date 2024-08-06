@@ -1,6 +1,6 @@
 require('drawing.point')
 
----@module 'entities.bg'
+--- @module 'entities.bg'
 BG = {}
 
 local G, W = love.graphics, love.window
@@ -15,9 +15,9 @@ image:setFilter('nearest', 'linear')
 function BG.new()
     local windowSize = Point.new(W.getMode())
 
-    ---@class BG
-    ---@field position Point The current position of where the background is being rendered.
-    ---@field speed number How fast, in pixels, the background scrolls.
+    --- @class BG
+    --- @field position Point The current position of where the background is being rendered.
+    --- @field speed number How fast, in pixels, the background scrolls.
     local bg = {
         position = Point.new(0, -windowSize.y * (numScreens - 1)),
         speed = 1,

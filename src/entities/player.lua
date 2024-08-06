@@ -4,14 +4,14 @@ require('entities.gun')
 require('particles.thruster')
 require('shaders.blur')
 
----@module 'entities.player'
+--- @module 'entities.player'
 Player = {}
 
 local G, W = love.graphics, love.window
 
 --- Creates a new player instance.
----@param imagePath string The path to the image to use for the player.
----@return Player Player The player instance.
+--- @param imagePath string The path to the image to use for the player.
+--- @return Player Player The player instance.
 function Player.new(imagePath)
     local canvas = G.newCanvas()
     local thruster = Thruster.new()
@@ -24,11 +24,11 @@ function Player.new(imagePath)
     local windowSize = Point.new(W.getMode())
     local imageSize = Point.new(image:getDimensions())
 
-    ---@class Player
-    ---@field position Point The coordinates where the player currently is.
-    ---@field scale Point The scale of the image being rendered.
-    ---@field rotation number The rotation to render the image.
-    ---@field speed number The speed in pixels that the player will move each frame.
+    --- @class Player
+    --- @field position Point The coordinates where the player currently is.
+    --- @field scale Point The scale of the image being rendered.
+    --- @field rotation number The rotation to render the image.
+    --- @field speed number The speed in pixels that the player will move each frame.
     local player = {
         position = Point.new(0, 0),
         scale = Point.new(0.35, 0.35),
@@ -68,37 +68,37 @@ function Player.new(imagePath)
     end
 
     --- Sets the position of the player.
-    ---@param position Point The new position of the player.
+    --- @param position Point The new position of the player.
     function player:setPosition(position)
         self.position:setPoint(position)
     end
 
     ---Sets the scale of the player.
-    ---@param scale Point The new scale of the player.
+    --- @param scale Point The new scale of the player.
     function player:setScale(scale)
         self.scale:setPoint(scale)
     end
 
     --- Sets the rotation of the player.
-    ---@param rotation number The new rotation of the player, in radians.
+    --- @param rotation number The new rotation of the player, in radians.
     function player:setRotation(rotation)
         self.rotation = rotation
     end
 
     ---Sets the speed of the player.
-    ---@param speed number The new speed of the player.
+    --- @param speed number The new speed of the player.
     function player:setSpeed(speed)
         self.speed = speed
     end
 
     --- Returns the width and height of the player's image, scaled by the player's scale.
-    ---@return Point point The size of the player's image, scaled.
+    --- @return Point point The size of the player's image, scaled.
     function player:getSize()
         return imageSize * self.scale
     end
 
     --- Returns a rectangle representing the player's position and size.
-    ---@return Rect The rectangle representing the player's position and size.
+    --- @return Rect The rectangle representing the player's position and size.
     function player:getRect()
         return Rect.new(self.position.x, self.position.y, imageSize.x, imageSize.y)
     end
@@ -150,8 +150,9 @@ function Player.new(imagePath)
 
     --- Checks if a bullet intersects with the given rectangle.
     --- @param rect Rect The rectangle to check for intersection.
+    --- @return boolean True if the bullet intersects with the rectangle, false otherwise.
     function player:destroyCollidingBullets(rect)
-        gun:destroyCollidingBullets(rect)
+        return gun:destroyCollidingBullets(rect)
     end
 
     return player
