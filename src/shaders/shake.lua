@@ -28,6 +28,10 @@ function Shake.new()
         G.setShader()
     end
 
+    --- Updates the shake effect.
+    --- This function is called each frame to update the shake effect.
+    --- It decreases the shake intensity and duration over time, and sends the current shake intensity to the shader.
+    --- @param dt number The time since the last frame, in seconds.
     function shake:update(dt)
         if self.shakeDuration > 0 then
             self.shakeDuration = self.shakeDuration - dt
@@ -42,6 +46,9 @@ function Shake.new()
         shader:send('shake', self.shakeIntensity)
     end
 
+    --- Triggers the shake effect with the specified intensity and duration.
+    --- @param intensity number The intensity of the shake effect.
+    --- @param duration number The duration of the shake effect in seconds.
     function shake:trigger(intensity, duration)
         self.shakeIntensity = intensity
         self.shakeDuration = duration
