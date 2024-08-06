@@ -48,8 +48,8 @@ function Point.new(x, y)
     }
 
     ---@class Point
-    ---@field x number
-    ---@field y number
+    ---@field x number The x coordinate of the new point. If not provided, defaults to 0.
+    ---@field y number The y coordinate of the new point. If not provided, defaults to 0.
     local point = { x = x, y = y, }
 
     setmetatable(point, mt);
@@ -78,6 +78,28 @@ function Point.new(x, y)
     --- @return Point point The coordinates of the point.
     function point:getPoint()
         return Point.new(self.x, self.y)
+    end
+
+    --- Checks if the point is inside the given rect.
+    ---@param rect Rect The rect to check if the point is inside.
+    ---@return boolean
+    function point:inside(rect)
+        if self.x < rect.x
+            or self.y < rect.y
+            or self.x > rect.x + rect.w
+            or self.y > rect.y + rect.h
+        then
+            return false
+        end
+
+        return true
+    end
+
+    --- Gets the distance between two points.
+    ---@param point2 Point The second point to get the distance to.
+    ---@return number
+    function point:distance(point2)
+        return math.sqrt((self.x - point2.x) ^ 2 + (self.y - point2.y) ^ 2)
     end
 
     return point

@@ -1,7 +1,7 @@
 require('entities.bg')
-require('entities.player')
 require('entities.enemy')
 require('entities.music')
+require('entities.player')
 require('shaders.crt')
 
 local G, K = love.graphics, love.keyboard
@@ -44,6 +44,8 @@ function love.update(dt)
     if Enemy1.position.y < 100 then
         Enemy1:moveDown()
     end
+
+    Player1:destroyCollidingBullets(Enemy1:getRect())
 
     Enemy1:update(dt)
 end

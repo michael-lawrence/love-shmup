@@ -1,6 +1,7 @@
-require('shaders.blur')
 require('drawing.point')
+require('drawing.rect')
 require('entities.bullet')
+require('shaders.blur')
 
 ---@module 'entities.gun'
 Gun = {}
@@ -112,6 +113,18 @@ function Gun.new(imagePath)
 
         bullet.position:setPoint(position)
         table.insert(bullets, 1, bullet)
+    end
+
+    --- Checks if the gun's bullets intersect with the given rectangle.
+    --- For each bullet in the `bullets` table, this function checks if the bullet intersects with the given rectangle.
+    --- If an intersection is detected, the bullet is destroyed.
+    ---@param rect Rect The rectangle to check for intersections with the gun's bullets.
+    function gun:destroyCollidingBullets(rect)
+        for _, bullet in ipairs(bullets) do
+            if bullet:intersects(rect) then
+                bullet:destroy()
+            end
+        end
     end
 
     return gun

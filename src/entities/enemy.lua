@@ -1,6 +1,7 @@
-require('shaders.blur')
 require('drawing.point')
+require('drawing.rect')
 require('entities.gun')
+require('shaders.blur')
 
 ---@module 'entities.enemy'
 Enemy = {}
@@ -86,6 +87,12 @@ function Enemy.new(imagePath)
     ---@return Point point The size of the enemy's image, scaled.
     function enemy:getSize()
         return imageSize * self.scale
+    end
+
+    --- Returns a rectangle representing the enemy's position and size.
+    ---@return Rect The rectangle representing the enemy's position and size.
+    function enemy:getRect()
+        return Rect.new(self.position.x, self.position.y, imageSize.x, imageSize.y)
     end
 
     --- Updates the enemy's position and applies a blur effect based on the enemy's distance from the center of the screen.

@@ -1,7 +1,8 @@
-require('shaders.blur')
 require('drawing.point')
-require('particles.thruster')
+require('drawing.rect')
 require('entities.gun')
+require('particles.thruster')
+require('shaders.blur')
 
 ---@module 'entities.player'
 Player = {}
@@ -96,6 +97,12 @@ function Player.new(imagePath)
         return imageSize * self.scale
     end
 
+    --- Returns a rectangle representing the player's position and size.
+    ---@return Rect The rectangle representing the player's position and size.
+    function player:getRect()
+        return Rect.new(self.position.x, self.position.y, imageSize.x, imageSize.y)
+    end
+
     --- Updates the player's position and applies a blur effect based on the player's distance from the center of the screen.
     --- This function calculates the distance between the player's position and the center of the screen. If the distance is less than the `zeroRadius` value, the blur effect is set to zero. Otherwise, the blur effect is calculated based on the player's distance from the center, using the `sensitivity` value to determine the strength of the effect.
     --- @param self Player The player instance.
@@ -139,6 +146,12 @@ function Player.new(imagePath)
     --- Shoots a projectile
     function player:shoot()
         gun:shoot();
+    end
+
+    --- Checks if a bullet intersects with the given rectangle.
+    --- @param rect Rect The rectangle to check for intersection.
+    function player:destroyCollidingBullets(rect)
+        gun:destroyCollidingBullets(rect)
     end
 
     return player
