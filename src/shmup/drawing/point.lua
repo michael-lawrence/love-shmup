@@ -1,4 +1,3 @@
---- @module 'shmup.drawing.point'
 --- @class shmup.drawing.Point
 --- @field x number The x coordinate of the point.
 --- @field y number The y coordinate of the point.

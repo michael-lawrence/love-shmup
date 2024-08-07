@@ -1,4 +1,3 @@
---- @module 'shmup.drawing.rect'
 --- @class shmup.drawing.Rect
 --- @field x number The x coordinate of the new rect. If not provided, defaults to 0.
 --- @field y number The y coordinate of the new rect. If not provided, defaults to 0.

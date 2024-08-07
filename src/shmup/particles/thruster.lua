@@ -1,4 +1,3 @@
---- @module 'shmup.particles.thruster'
 --- @class shmup.particles.Thruster
 --- @field position shmup.drawing.Point The coordinates the thruster will be rendered at.
 --- @field buffer number The buffer size of the particles.

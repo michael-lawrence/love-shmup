@@ -1,4 +1,3 @@
---- @module 'shmup.shaders.shake'
 --- @class shmup.shaders.Shake
 --- @field shakeIntensity number The intensity of the shake.
 --- @field shakeDuration number The duration of the shake.

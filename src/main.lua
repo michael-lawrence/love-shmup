@@ -3,13 +3,12 @@ Monocle.new({
     isActive = true,
 })
 
-local shmup = require('shmup')
-local BG = shmup.entities.BG
-local Enemy = shmup.entities.Enemy
-local Music = shmup.entities.Music
-local Player = shmup.entities.Player
-local CRT = shmup.shaders.CRT
-local Shake = shmup.shaders.Shake
+local BG = require('shmup.entities.BG')
+local Enemy = require('shmup.entities.Enemy')
+local Music = require('shmup.entities.Music')
+local Player = require('shmup.entities.Player')
+local CRT = require('shmup.shaders.CRT')
+local Shake = require('shmup.shaders.Shake')
 local G = love.graphics
 
 function love.load()
@@ -17,9 +16,10 @@ function love.load()
     ShakeCanvas = G.newCanvas()
     CRTShader = CRT:new()
     ShakeShader = Shake:new()
-    BGImage = BG:new()
     BGMusic = Music:new()
     BGMusic:play(BGMusic.songs.stage1)
+
+    BGImage = BG:new({ imagePath = 'assets/bg.png' })
 
     Player1 = Player:new({ imagePath = 'assets/spaceship.png' });
     Player1:init()
@@ -30,9 +30,7 @@ end
 
 function love.update(dt)
     Monocle.update()
-
-    BGImage:moveDown()
-
+    BGImage:update(dt)
     Player1:update(dt)
 
     if Enemy1:getRect().y < 100 then

@@ -2,7 +2,6 @@ local Point = require('shmup.drawing.point')
 local Rect = require('shmup.drawing.rect')
 local G = love.graphics
 
---- @module 'shmup.entities.projectile'
 --- @class shmup.entities.Projectile
 --- @field position shmup.drawing.Point The coordinates where the projectile currently is.
 --- @field scale shmup.drawing.Point The scale of the image being rendered.

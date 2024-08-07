@@ -3,7 +3,6 @@ local Projectile = require('shmup.entities.projectile')
 local Blur = require('shmup.shaders.blur')
 local G = love.graphics
 
---- @module 'shmup.entities.projectile'
 --- @class shmup.controllers.ProjectileController
 --- @field position shmup.drawing.Point The coordinates where the projectile currently is.
 --- @field scale shmup.drawing.Point The scale of the image being rendered.

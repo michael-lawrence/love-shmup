@@ -1,4 +1,3 @@
---- @module 'shmup.entities.music'
 --- @class shmup.entities.Music
 --- @field songs table A table of songs to play.
 --- @field songSource love.Source The source of the currently playing song.

@@ -1,4 +1,3 @@
---- @module 'shmup.shaders.blur'
 --- @class shmup.shaders.Blur
 --- @field offset table The offset of the blur.
 --- @field size shmup.drawing.Point The size of the canvas.

@@ -1,4 +1,3 @@
---- @module 'shmup.entities.enemy'
 --- @class shmup.entities.Enemy
 --- @field scale shmup.drawing.Point The scale of the image being rendered.
 --- @field rotation number The rotation to render the image.

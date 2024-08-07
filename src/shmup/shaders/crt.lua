@@ -1,4 +1,3 @@
---- @module 'shmup.shaders.crt'
 --- @class shmup.shaders.CRT
 --- @field shader love.Shader The shader to use for rendering.
 local P = {}

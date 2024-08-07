@@ -1,9 +1,5 @@
---- @module 'shmup.entities.bg'
---- @class shmup.entities.BG
---- @field position shmup.drawing.Point The current position of where the background is being rendered.
---- @field speed number How fast, in pixels, the background scrolls.
-local P = {}
-
+local GraphicsController = require('shmup.controllers.graphics')
+local MovementController = require('shmup.controllers.movement')
 local Point = require('shmup.drawing.point')
 local G, W = love.graphics, love.window
 
@@ -11,18 +7,39 @@ local windowW, windowH = W.getMode()
 local windowSize = Point:new({ x = windowW, y = windowH })
 local numScreens = 100
 
-local image = G.newImage('assets/bg.png')
-image:setWrap('repeat', 'repeat')
-image:setFilter('nearest', 'linear')
-
-local quad = G.newQuad(0, 0, windowSize.x, windowSize.y * numScreens, image:getDimensions())
+--- @class shmup.entities.BG
+--- @field controllers table A table of all the controllers that are currently active.
+--- @field controllers.graphics shmup.controllers.GraphicsController The graphics controller.
+--- @field controllers.movement shmup.controllers.MovementController The movement controller.
+local P = {}
 
 --- Creates a new background instance.
 --- @return shmup.entities.BG BG The new background instance.
-function P:new()
+function P:new(defaults)
+    defaults = defaults or {}
+
+    local movementController = MovementController:new({
+        speed = defaults.speed or 1,
+        position = defaults.position or Point:new({ x = 0, y = -windowSize.y * (numScreens - 1) }),
+    })
+
+    local graphicsController = GraphicsController:new({
+        imagePath = defaults.imagePath,
+        scale = defaults.scale or Point:new({ x = 0.35, y = 0.35 }),
+        rotation = defaults.rotation or 0,
+        position = movementController.position
+    })
+
+    graphicsController.image:setWrap('repeat', 'repeat')
+    graphicsController.quad = G.newQuad(
+        0, 0, windowSize.x, windowSize.y * numScreens, graphicsController.image:getDimensions()
+    )
+
     local o = {
-        position = Point:new({ x = 0, y = -windowSize.y * (numScreens - 1) }),
-        speed = 1,
+        controllers = {
+            graphics = graphicsController,
+            movement = movementController
+        }
     }
 
     setmetatable(o, self)
@@ -31,19 +48,16 @@ function P:new()
     return o
 end
 
+function P:update()
+    local movement = self.controllers.movement
+    local graphics = self.controllers.graphics
+    movement:down()
+    graphics:setPosition(movement.position)
+end
+
 --- Draws the background image on the screen at the current position.
 function P:draw()
-    G.draw(image, quad, self.position:get())
-end
-
---- Moves the background up by the background's speed.
-function P:moveUp()
-    self.position.y = self.position.y - self.speed
-end
-
---- Moves the background down by the background's speed.
-function P:moveDown()
-    self.position.y = self.position.y + self.speed
+    self.controllers.graphics:draw()
 end
 
 return P
