@@ -1,5 +1,5 @@
---- @module 'drawing.rect'
-Rect = {}
+--- @module 'shmup.drawing.rect'
+local Rect = {}
 
 --- Adds two rects together and returns a new rect with the sum of their coordinates.
 --- @param a Rect The first rect to add.

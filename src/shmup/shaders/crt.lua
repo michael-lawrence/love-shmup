@@ -1,5 +1,5 @@
---- @module 'shaders.crt'
-CRT = {}
+--- @module 'shmup.shaders.crt'
+local CRT = {}
 
 local G = love.graphics
 

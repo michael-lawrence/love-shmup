@@ -1,8 +1,7 @@
-require('drawing.point')
+--- @module 'shmup.shaders.blur'
+local Blur = {}
 
---- @module 'shaders.blur'
-Blur = {}
-
+local Point = require('shmup.drawing.point')
 local G = love.graphics
 
 --- Creates a new blur shader instance.
@@ -47,7 +46,7 @@ function Blur.new()
             shader:send("Blur", Offset)
         else
             local mult = sensitivity * (1 - zeroRadius / math.sqrt(msq))
-            Offset={ mult * m.x, mult * m.y }
+            Offset = { mult * m.x, mult * m.y }
             shader:send("Blur", Offset)
         end
     end

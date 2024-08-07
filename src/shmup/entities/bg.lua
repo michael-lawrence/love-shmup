@@ -1,8 +1,7 @@
-require('drawing.point')
+--- @module 'shmup.entities.bg'
+local BG = {}
 
---- @module 'entities.bg'
-BG = {}
-
+local Point = require('shmup.drawing.point')
 local G, W = love.graphics, love.window
 
 local numScreens = 100

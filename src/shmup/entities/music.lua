@@ -1,5 +1,5 @@
---- @module 'entities.music'
-Music = {}
+--- @module 'shmup.entities.music'
+local Music = {}
 
 local A = love.audio
 

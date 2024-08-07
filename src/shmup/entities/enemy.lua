@@ -1,11 +1,10 @@
-require('drawing.point')
-require('drawing.rect')
-require('entities.gun')
-require('shaders.blur')
+--- @module 'shmup.entities.enemy'
+local Enemy = {}
 
---- @module 'entities.enemy'
-Enemy = {}
-
+local Point = require('shmup.drawing.point')
+local Rect = require('shmup.drawing.rect')
+local Gun = require('shmup.entities.gun')
+local Blur = require('shmup.shaders.blur')
 local G, W = love.graphics, love.window
 
 --- Creates a new enemy instance.

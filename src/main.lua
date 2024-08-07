@@ -1,10 +1,10 @@
-require('entities.bg')
-require('entities.enemy')
-require('entities.music')
-require('entities.player')
-require('shaders.crt')
-require('shaders.shake')
-
+local shmup = require('shmup')
+local BG = shmup.entities.BG
+local Enemy = shmup.entities.Enemy
+local Music = shmup.entities.Music
+local Player = shmup.entities.Player
+local CRT = shmup.shaders.CRT
+local Shake = shmup.shaders.Shake
 local G, K = love.graphics, love.keyboard
 
 function love.load()

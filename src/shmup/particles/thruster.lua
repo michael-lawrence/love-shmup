@@ -1,8 +1,7 @@
-require('drawing.point')
+--- @module 'shmup.particles.thruster'
+local Thruster = {}
 
---- @module 'particles.thruster'
-Thruster = {}
-
+local Point = require('shmup.drawing.point')
 local G = love.graphics
 local image = G.newImage('assets/particles/lightBlur.png')
 image:setFilter("linear", "linear")

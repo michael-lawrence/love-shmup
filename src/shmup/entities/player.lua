@@ -1,12 +1,11 @@
-require('drawing.point')
-require('drawing.rect')
-require('entities.gun')
-require('particles.thruster')
-require('shaders.blur')
+--- @module 'shmup.entities.player'
+local Player = {}
 
---- @module 'entities.player'
-Player = {}
-
+local Point = require('shmup.drawing.point')
+local Rect = require('shmup.drawing.rect')
+local Gun = require('shmup.entities.gun')
+local Thruster = require('shmup.particles.thruster')
+local Blur = require('shmup.shaders.blur')
 local G, W = love.graphics, love.window
 
 --- Creates a new player instance.

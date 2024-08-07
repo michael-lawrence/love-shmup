@@ -1,9 +1,8 @@
-require('drawing.point')
-require('drawing.rect')
+--- @module 'shmup.entities.bullet'
+local Bullet = {}
 
---- @module 'entities.bullet'
-Bullet = {}
-
+local Point = require('shmup.drawing.point')
+local Rect = require('shmup.drawing.rect')
 local G = love.graphics
 
 --- Creates a new bullet instance.

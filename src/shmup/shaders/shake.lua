@@ -1,5 +1,5 @@
---- @module 'shaders.shake'
-Shake = {}
+--- @module 'shmup.shaders.shake'
+local Shake = {}
 
 local G = love.graphics
 

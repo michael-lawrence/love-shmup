@@ -1,5 +1,5 @@
---- @module 'drawing.point'
-Point = {}
+--- @module 'shmup.drawing.point'
+local Point = {}
 
 --- Adds two points together and returns a new point with the sum of their coordinates.
 --- @param a Point The first point to add.
