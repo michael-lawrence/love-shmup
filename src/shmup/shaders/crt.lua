@@ -1,36 +1,39 @@
 --- @module 'shmup.shaders.crt'
+--- @class shmup.shaders.CRT
+--- @field shader love.Shader The shader to use for rendering.
 local CRT = {}
 
 local G = love.graphics
 
 --- Creates a new crt shader instance.
---- @return crt The new crt shader instance.
-function CRT.new()
-    local width, height = G.getDimensions()
+--- @return shmup.shaders.CRT The new crt shader instance.
+function CRT:new()
     local shader = G.newShader('assets/shaders/crt.frag')
+
+    local o = {
+        shader = shader
+    }
+
     --send data to GPU
+    local width, height = G.getDimensions()
     shader:send('inputSize', { width, height })
     shader:send('textureSize', { width, height })
 
-    --- @class crt
-    local crt = {}
+    setmetatable(o, self)
+    self.__index = self
 
-    --- Draws the crt shader.
-    --- This function sets the current shader to the crt shader, which can then be used for rendering.
-    function crt:draw()
-        G.setShader(shader)
-    end
+    return o
+end
 
-    --- Resets the current shader to the default shader.
-    function crt:reset()
-        G.setShader()
-    end
+--- Draws the crt shader.
+--- This function sets the current shader to the crt shader, which can then be used for rendering.
+function CRT:draw()
+    G.setShader(self.shader)
+end
 
-    function crt:update()
-
-    end
-
-    return crt
+--- Resets the current shader to the default shader.
+function CRT:reset()
+    G.setShader()
 end
 
 return CRT

@@ -1,3 +1,8 @@
+local Monocle = require('lib/monocle/monocle')
+Monocle.new({
+    isActive = true,
+})
+
 local shmup = require('shmup')
 local BG = shmup.entities.BG
 local Enemy = shmup.entities.Enemy
@@ -10,16 +15,16 @@ local G, K = love.graphics, love.keyboard
 function love.load()
     Canvas = G.newCanvas()
     ShakeCanvas = G.newCanvas()
-    CRTShader = CRT.new()
-    ShakeShader = Shake.new()
-    BGImage = BG.new()
-    BGMusic = Music.new()
+    CRTShader = CRT:new()
+    ShakeShader = Shake:new()
+    BGImage = BG:new()
+    BGMusic = Music:new()
     BGMusic:play(BGMusic.songs.stage1)
 
-    Player1 = Player.new('assets/spaceship.png');
+    Player1 = Player:new('assets/spaceship.png');
     Player1:init()
 
-    Enemy1 = Enemy.new('assets/boss-stage1.png')
+    Enemy1 = Enemy:new('assets/boss-stage1.png')
     Enemy1:init()
 
     Keys = {
@@ -33,9 +38,13 @@ function love.load()
         s = Player1.moveDown,
         space = Player1.shoot,
     }
+
+    -- Monocle.watch("Player Position", function() return Player1.position end)
 end
 
 function love.update(dt)
+    Monocle.update()
+
     BGImage:moveDown()
 
     for k, v in pairs(Keys) do
@@ -76,4 +85,14 @@ function love.draw()
     CRTShader:draw()
     G.draw(ShakeCanvas)
     CRTShader:reset()
+
+    Monocle.draw()
+end
+
+function love.textinput(t)
+    Monocle.textinput(t)
+end
+
+function love.keypressed(text)
+    Monocle.keypressed(text)
 end

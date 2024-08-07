@@ -1,37 +1,39 @@
 --- @module 'shmup.entities.music'
+--- @class shmup.entities.Music
+--- @field songs table A table of songs to play.
+--- @field songSource love.Source The source of the currently playing song.
 local Music = {}
 
 local A = love.audio
 
 --- Creates a new Music instance.
---- @return Music The music instance.
-function Music.new()
-    --- @class Music
-    --- @field songs table
-    local music = {
+--- @return shmup.entities.Music The music instance.
+function Music:new()
+    local o = {
         songs = {
             stage1 = 'assets/music/stage1.ogg'
-        }
+        },
+        songSource = nil
     }
 
-    -- @type love.Source
-    local songSource
+    setmetatable(o, self)
+    self.__index = self
 
-    ---Plays the specified song.
-    --- @param song string The song to play.
-    function music:play(song)
-        songSource = A.newSource(song, 'stream')
+    return o
+end
 
-        A.setVolume(0.35)
-        A.play(songSource)
-    end
+---Plays the specified song.
+--- @param song string The song to play.
+function Music:play(song)
+    self.songSource = A.newSource(song, 'stream')
 
-    ---Stops the currently playing song.
-    function music:stop()
-        songSource:stop()
-    end
+    A.setVolume(0.35)
+    A.play(self.songSource)
+end
 
-    return music
+---Stops the currently playing song.
+function Music:stop()
+    self.songSource:stop()
 end
 
 return Music
