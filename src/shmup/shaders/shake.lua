@@ -3,13 +3,13 @@
 --- @field shakeIntensity number The intensity of the shake.
 --- @field shakeDuration number The duration of the shake.
 --- @field shader love.Shader The shader to use for rendering.
-local Shake = {}
+local P = {}
 
 local G = love.graphics
 
 --- Creates a new shake shader instance.
 --- @return shmup.shaders.Shake The new shake shader instance.
-function Shake:new()
+function P:new()
     local width, height = G.getDimensions()
     local shader = G.newShader('assets/shaders/shake.frag')
 
@@ -30,12 +30,12 @@ end
 
 --- Draws the shake shader.
 --- This function sets the current shader to the shake shader, which can then be used for rendering.
-function Shake:draw()
+function P:draw()
     G.setShader(self.shader)
 end
 
 --- Resets the current shader to the default shader.
-function Shake:reset()
+function P:reset()
     G.setShader()
 end
 
@@ -43,7 +43,7 @@ end
 --- This function is called each frame to update the shake effect.
 --- It decreases the shake intensity and duration over time, and sends the current shake intensity to the shader.
 --- @param dt number The time since the last frame, in seconds.
-function Shake:update(dt)
+function P:update(dt)
     if self.shakeDuration > 0 then
         self.shakeDuration = self.shakeDuration - dt
         self.shakeIntensity = self.shakeIntensity - 1
@@ -60,9 +60,9 @@ end
 --- Triggers the shake effect with the specified intensity and duration.
 --- @param intensity number The intensity of the shake effect.
 --- @param duration number The duration of the shake effect in seconds.
-function Shake:trigger(intensity, duration)
+function P:trigger(intensity, duration)
     self.shakeIntensity = intensity
     self.shakeDuration = duration
 end
 
-return Shake
+return P

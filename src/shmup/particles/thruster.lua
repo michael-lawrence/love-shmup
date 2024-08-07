@@ -4,7 +4,7 @@
 --- @field buffer number The buffer size of the particles.
 --- @field canvas love.Canvas The canvas to draw the particles on.
 --- @field particles love.ParticleSystem The particle system to use for the thruster.
-local Thruster = {}
+local P = {}
 
 local Point = require('shmup.drawing.point')
 local G = love.graphics
@@ -13,11 +13,11 @@ image:setFilter("linear", "linear")
 
 --- Creates a new thruster instance.
 --- @return shmup.particles.Thruster Thruster The new thruster instance.
-function Thruster:new()
+function P:new()
     local buffer = 10
     local particles = G.newParticleSystem(image, buffer)
     local o = {
-        position = Point:new(0, 0),
+        position = Point:new(),
         buffer = buffer,
         canvas = G.newCanvas(),
         particles = particles,
@@ -57,7 +57,7 @@ function Thruster:new()
 end
 
 --- Draws the thruster particle system on the screen at the current position.
-function Thruster:draw()
+function P:draw()
     local oldCanvas = G.getCanvas()
     local oldBlendMode = G.getBlendMode()
     G.setCanvas(self.canvas)
@@ -71,15 +71,15 @@ end
 
 --- Updates the thruster particle system.
 --- @param dt number The time since the last update, in seconds.
-function Thruster:update(dt)
+function P:update(dt)
     self.particles:setPosition(self.position:get())
     self.particles:update(dt)
 end
 
 --- Sets the position of the thruster particle system.
 --- @param position shmup.drawing.Point The new coordinates of the thruster particle system.
-function Thruster:setPosition(position)
+function P:setPosition(position)
     self.position:setPoint(position)
 end
 
-return Thruster
+return P

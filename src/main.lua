@@ -10,7 +10,7 @@ local Music = shmup.entities.Music
 local Player = shmup.entities.Player
 local CRT = shmup.shaders.CRT
 local Shake = shmup.shaders.Shake
-local G, K = love.graphics, love.keyboard
+local G = love.graphics
 
 function love.load()
     Canvas = G.newCanvas()
@@ -21,25 +21,11 @@ function love.load()
     BGMusic = Music:new()
     BGMusic:play(BGMusic.songs.stage1)
 
-    Player1 = Player:new('assets/spaceship.png');
+    Player1 = Player:new({ imagePath = 'assets/spaceship.png' });
     Player1:init()
 
     Enemy1 = Enemy:new('assets/boss-stage1.png')
     Enemy1:init()
-
-    Keys = {
-        left = Player1.moveLeft,
-        a = Player1.moveLeft,
-        right = Player1.moveRight,
-        d = Player1.moveRight,
-        up = Player1.moveUp,
-        w = Player1.moveUp,
-        down = Player1.moveDown,
-        s = Player1.moveDown,
-        space = Player1.shoot,
-    }
-
-    -- Monocle.watch("Player Position", function() return Player1.position end)
 end
 
 function love.update(dt)
@@ -47,17 +33,13 @@ function love.update(dt)
 
     BGImage:moveDown()
 
-    for k, v in pairs(Keys) do
-        if K.isDown(k) then v(Player1) end
-    end
-
     Player1:update(dt)
 
     if Enemy1.position.y < 100 then
         Enemy1:moveDown()
     end
 
-    local collision = Player1:destroyCollidingBullets(Enemy1:getRect())
+    local collision = Player1:destroyCollidingProjectiles(Enemy1:getRect())
 
     if collision then
         ShakeShader:trigger(10, 0.15)
