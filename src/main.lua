@@ -24,7 +24,7 @@ function love.load()
     Player1 = Player:new({ imagePath = 'assets/spaceship.png' });
     Player1:init()
 
-    Enemy1 = Enemy:new('assets/boss-stage1.png')
+    Enemy1 = Enemy:new({ imagePath = 'assets/boss-stage1.png' })
     Enemy1:init()
 end
 
@@ -35,7 +35,7 @@ function love.update(dt)
 
     Player1:update(dt)
 
-    if Enemy1.position.y < 100 then
+    if Enemy1:getRect().y < 100 then
         Enemy1:moveDown()
     end
 
