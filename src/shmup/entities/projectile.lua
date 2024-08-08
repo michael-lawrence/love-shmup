@@ -15,7 +15,10 @@ local P = {}
 function P:new(defaults)
     defaults = defaults or {}
 
-    local movementController = MovementController:new({ speed = defaults.speed or 10 })
+    local movementController = MovementController:new({
+        speed = defaults.speed or 10,
+        position = defaults.position or Point:new(),
+    })
 
     local graphicsController = GraphicsController:new({
         imagePath = defaults.imagePath,
@@ -76,6 +79,7 @@ end
 --- @param position shmup.drawing.Point The position to draw the projectile at.
 function P:setPosition(position)
     self.controllers.graphics:setPosition(position)
+    self.controllers.movement:setPosition(position)
 end
 
 --- Marks the projectile as destroyed, indicating it should no longer be drawn or updated.
