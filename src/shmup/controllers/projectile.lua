@@ -49,9 +49,6 @@ function P:update(dt)
     for i, projectile in ipairs(self.projectiles) do
         projectile:update()
 
-        local r = projectile:getRect()
-        print('projectile rect: ' .. r.x, r.y, r.w, r.h)
-
         if projectile.isDestroyed then
             self.projectiles[i] = nil
         end
