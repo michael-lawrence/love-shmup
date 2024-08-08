@@ -1,3 +1,0 @@
-[submodule "src/lib/monocle"]
-	path = src/lib/monocle
-	url = git@github.com:kjarvi/monocle.git

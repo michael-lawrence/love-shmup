@@ -11,7 +11,7 @@ local G = love.graphics
 --- @field canvas love.Canvas The canvas to draw the projectile on.
 --- @field blur shmup.shaders.Blur The blur shader to use when drawing the projectile.
 --- @field lastProjectileFired number The time in seconds that the last projectile was fired.
---- @field image love.Image The image to draw the projectile on.
+--- @field imagePath string The path to the image to draw the projectile on.
 --- @field imageSize shmup.drawing.Point The size of the image being rendered.
 --- @field projectiles table A table of all the projectiles that are currently in flight.
 local P = {}
@@ -31,13 +31,8 @@ function P:new(defaults)
         lastProjectileFired = os.clock(),
         projectiles = {},
         canvas = G.newCanvas(),
-        image = G.newImage(defaults.imagePath),
+        imagePath = defaults.imagePath,
     }
-
-    o.image:setFilter('nearest', 'linear')
-
-    local imageW, imageH = o.image:getDimensions()
-    o.imageSize = Point:new({ x = imageW, y = imageH })
 
     setmetatable(o, self)
     self.__index = self
@@ -116,13 +111,14 @@ function P:shoot()
 
     self.lastProjectileFired = now
 
-    local projectileSize = self:getSize()
+    local projectile = Projectile:new({
+        imagePath = self.imagePath,
+    })
+
+    local projectileSize = projectile:getSize()
     local offset = Point:new({ x = projectileSize.x * 0.4, y = -10 })
     local projectilePosition = self.position + offset
-    local projectile = Projectile:new({
-        image = self.image,
-        position = projectilePosition,
-    })
+    projectile:setPosition(projectilePosition)
 
     table.insert(self.projectiles, 1, projectile)
 end

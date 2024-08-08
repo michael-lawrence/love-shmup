@@ -1,8 +1,3 @@
-local Monocle = require('lib/monocle/monocle')
-Monocle.new({
-    isActive = true,
-})
-
 local BG = require('shmup.entities.BG')
 local Enemy = require('shmup.entities.Enemy')
 local Music = require('shmup.entities.Music')
@@ -29,7 +24,6 @@ function love.load()
 end
 
 function love.update(dt)
-    Monocle.update()
     BGImage:update(dt)
     Player1:update(dt)
 
@@ -65,14 +59,4 @@ function love.draw()
     CRTShader:draw()
     G.draw(ShakeCanvas)
     CRTShader:reset()
-
-    Monocle.draw()
-end
-
-function love.textinput(t)
-    Monocle.textinput(t)
-end
-
-function love.keypressed(text)
-    Monocle.keypressed(text)
 end
